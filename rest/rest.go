@@ -52,7 +52,6 @@ func ConsumeRestService(requestInfo RequestInfo, v interface{}) (*http.Response,
 		return nil, err
 	}
 	consumer.Print("[REST integration] RESPONSE CODE: %v", response.StatusCode)
-	consumer.Print("[REST integration] RESPONSE HEADERS: %v", response.Header)
 	if responseBuff != nil && len(responseBuff) != 0 {
 		consumer.LogResponse(responseBuff)
 		err = json.Unmarshal(responseBuff, &v)
