@@ -20,17 +20,17 @@ var Fatal func(...interface{}) = log.Fatal
 // LogResponse doc ...
 func LogResponse(buff []byte) {
 	if len(buff) > 2000 {
-		Print("RESPONSE: ", string(buff[:1000]), " ••• SKIPED ••• ", string(buff[len(buff)-1000:]))
+		Print("[REST integration] RESPONSE: %v", string(buff[:1000]), " ••• SKIPED ••• ", string(buff[len(buff)-1000:]))
 	} else {
-		Print("RESPONSE: ", string(buff))
+		Print("[REST integration] RESPONSE: %v", string(buff))
 	}
 }
 
 // LogRequest doc ...
 func LogRequest(buff []byte) {
 	if len(buff) > 2000 {
-		Print("REQUEST: ", string(buff[:1000]), " ••• SKIPED ••• ", string(buff[len(buff)-1000:]))
+		Print("[REST integration] REQUEST: %v", string(buff[:1000]), " ••• SKIPED ••• ", string(buff[len(buff)-1000:]))
 	} else {
-		Print("REQUEST: ", string(buff))
+		Print("[REST integration] REQUEST: %v", string(buff))
 	}
 }

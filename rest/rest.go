@@ -7,14 +7,14 @@ import (
 	"net/http"
 
 	"github.com/jgolang/consumer"
-	// "github.com/jgolang/consumer"
 )
 
 // ConsumeRestService doc..
 func ConsumeRestService(requestInfo RequestInfo, v interface{}) (*http.Response, error) {
-	consumer.Print("URL: ", requestInfo.Endpoint)
-	consumer.Print("HEADERS: %v", requestInfo.Headers)
-	var buff []byte
+	consumer.Print("[REST integration] URL: [%v] %v", requestInfo.Method, requestInfo.Endpoint)
+	consumer.Print("[REST integration] HEADERS: %v", requestInfo.Headers)
+	consumer.Print("[REST integration] QUERY PARAMS: %v", requestInfo.QueryParams)
+	var buff []byte = make([]uint8, 0)
 	var err error
 	if requestInfo.Body != nil {
 		buff, err = json.Marshal(requestInfo.Body)
@@ -23,9 +23,6 @@ func ConsumeRestService(requestInfo RequestInfo, v interface{}) (*http.Response,
 		}
 		consumer.LogRequest(buff)
 	}
-	// else {
-	// 	buff = make([]uint8, 0)
-	// }
 	request, err := http.NewRequest(requestInfo.Method, requestInfo.Endpoint, bytes.NewReader(buff))
 	if err != nil {
 		return nil, err
@@ -35,14 +32,13 @@ func ConsumeRestService(requestInfo RequestInfo, v interface{}) (*http.Response,
 		request.Header.Add(key, value)
 	}
 	queryParameters := request.URL.Query()
-	for key, value := range requestInfo.Query {
+	for key, value := range requestInfo.QueryParams {
 		queryParameters.Add(key, value)
 	}
 	request.URL.RawQuery = queryParameters.Encode()
-	consumer.Print("QUERY STRING: ", request.RequestURI)
 	timeout := requestInfo.Timeout
 	if timeout == 0 {
-		timeout = DefaultTimeout
+		timeout = consumer.DefaultTimeout
 	}
 	client := http.Client{
 		Timeout: timeout,
