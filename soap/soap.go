@@ -67,7 +67,7 @@ func ConsumeSOAP12Service(soapRequest RequestInfo, expr string) (*xmlquery.Node,
 		return nil, fmt.Errorf("Not result")
 	}
 	consumer.Print("[SOAP integration] XML NODE: %v", node.InnerText())
-	return node, fmt.Errorf("test")
+	return node, nil
 }
 
 // ConsumeSOAPService return *xmlquery.Node to find xml nodes in document
